@@ -6,3 +6,4 @@ import os
 class ExampleAppConfig(AppConfig):
     name = 'example'
     path = os.path.abspath(os.path.dirname(__file__))
+    default_auto_field = 'django.db.models.BigAutoField'

@@ -16,9 +16,22 @@ DATABASES = {
     }
 }
 
-ROOT_URLCONF = "example.example.urls"
+ROOT_URLCONF = "example_project.urls"
 
-INSTALLED_APPS = [
+INSTALLED_APPS = []
+
+INSTALLED_APPS_v3_v4 = [
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    "admin_comments",
+    "example"
+]
+
+INSTALLED_APPS_v1_10 = [
     "django.contrib.admin",
     "django.contrib.contenttypes",
     "django.contrib.sites",
@@ -28,29 +41,41 @@ INSTALLED_APPS = [
     "example"
 ]
 
+if django.VERSION >= (3, 0,):
+    INSTALLED_APPS = INSTALLED_APPS_v3_v4
+
+if django.VERSION <= (2, 0,):
+    INSTALLED_APPS = INSTALLED_APPS_v1_10
+
 SITE_ID = 1
 
+
+MIDDLEWARE_v2_v3_v4 = [
+    'django.middleware.security.SecurityMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.common.CommonMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+]
+
+MIDDLEWARE_v1_10 = [
+    'django.middleware.security.SecurityMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.common.CommonMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+]
+
 if django.VERSION >= (1, 10):
-    MIDDLEWARE = [
-        'django.middleware.security.SecurityMiddleware',
-        'django.contrib.sessions.middleware.SessionMiddleware',
-        'django.middleware.common.CommonMiddleware',
-        'django.middleware.csrf.CsrfViewMiddleware',
-        'django.contrib.auth.middleware.AuthenticationMiddleware',
-        'django.contrib.messages.middleware.MessageMiddleware',
-        'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    ]
-else:
-    MIDDLEWARE_CLASSES = [
-        'django.middleware.security.SecurityMiddleware',
-        'django.contrib.sessions.middleware.SessionMiddleware',
-        'django.middleware.common.CommonMiddleware',
-        'django.middleware.csrf.CsrfViewMiddleware',
-        'django.contrib.auth.middleware.AuthenticationMiddleware',
-        'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
-        'django.contrib.messages.middleware.MessageMiddleware',
-        'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    ]
+    MIDDLEWARE = MIDDLEWARE_v2_v3_v4
+
+if django.VERSION < (1, 10):
+    MIDDLEWARE_CLASSES = MIDDLEWARE_v1_10
 
 TEMPLATES = [
     {

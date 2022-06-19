@@ -6,7 +6,7 @@ from django.test import Client, TestCase, override_settings
 from django.contrib.admin import site
 from admin_comments.models import Comment
 from admin_comments.admin import CommentInline
-from example.example.models import Musician
+from example.models import Musician
 
 
 class AdminTestCase(TestCase):
@@ -18,29 +18,29 @@ class AdminTestCase(TestCase):
             'admin', 'example-email@website.com', self.password)
         self.client = Client()
 
-    @override_settings(ADMIN_COMMENTS_FORM_CLASS = 'tests.forms.MyTestForm')
+    @override_settings(ADMIN_COMMENTS_FORM_CLASS='tests.forms.MyTestForm')
     def test_inline_honors_form_class_setting(self):
         from tests.forms import MyTestForm as Target
         inline = CommentInline(Comment, site)
         self.assertEqual(inline.form, Target)
 
-    @override_settings(ADMIN_COMMENTS_FORMSET_CLASS = 'tests.forms.MyTestFormset')
+    @override_settings(ADMIN_COMMENTS_FORMSET_CLASS='tests.forms.MyTestFormset')
     def test_inline_honors_formset_class_setting(self):
         from tests.forms import MyTestFormset as Target
         inline = CommentInline(Comment, site)
         self.assertEqual(inline.formset, Target)
 
-    @override_settings(ADMIN_COMMENTS_SHOW_EMPTY = True)
+    @override_settings(ADMIN_COMMENTS_SHOW_EMPTY=True)
     def test_inline_honors_show_empty_true_setting(self):
         inline = CommentInline(Comment, site)
         self.assertEqual(inline.extra, 1)
 
-    @override_settings(ADMIN_COMMENTS_SHOW_EMPTY = False)
+    @override_settings(ADMIN_COMMENTS_SHOW_EMPTY=False)
     def test_inline_honors_show_empty_false_setting(self):
         inline = CommentInline(Comment, site)
         self.assertEqual(inline.extra, 0)
 
-    @override_settings(ADMIN_COMMENTS_SHOW_EMPTY = None)
+    @override_settings(ADMIN_COMMENTS_SHOW_EMPTY=None)
     def test_inline_honors_show_empty_unset_setting(self):
         from django.conf import settings
         del settings.ADMIN_COMMENTS_SHOW_EMPTY
